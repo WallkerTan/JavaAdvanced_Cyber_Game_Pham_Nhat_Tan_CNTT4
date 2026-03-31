@@ -15,17 +15,6 @@ public class transactions {
 
     public transactions() {}
 
-    public transactions(int transactionId, int userId, Integer bookingId, TransactionType type,
-            double amount, String description, Timestamp createdAt) {
-        this.transactionId = transactionId;
-        this.userId = userId;
-        this.bookingId = bookingId;
-        this.type = type;
-        this.amount = amount;
-        this.description = description;
-        this.createdAt = createdAt;
-    }
-
     public transactions(int userId, Integer bookingId, TransactionType type, double amount,
             String description) {
         this.userId = userId;

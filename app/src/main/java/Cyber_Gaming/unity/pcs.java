@@ -95,8 +95,10 @@ public class pcs {
 
     @Override
     public String toString() {
-        return "PC{" + "pcId=" + pcId + ", pcNumber='" + pcNumber + '\'' + ", area=" + area
-                + ", configuration='" + configuration + '\'' + ", pricePerHour=" + pricePerHour
-                + ", status=" + status + ", createdAt=" + createdAt + '}';
+        return String.format("ID: %-3d | %-8s | %-12s | %-30s | %,8.0fđ | %s", pcId, pcNumber, area,
+                configuration.length() > 30 ? configuration.substring(0, 27) + "..."
+                        : configuration,
+                pricePerHour, status.toString());
     }
+
 }

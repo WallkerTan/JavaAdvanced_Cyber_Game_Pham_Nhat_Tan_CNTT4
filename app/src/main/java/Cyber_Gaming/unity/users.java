@@ -6,6 +6,7 @@ import Cyber_Gaming.util.HashUtil;
 
 public class users {
     public static users curentUser = null;
+    public static int id_pc = 0;
     private double moneyOwed = 0;
     private int userId;
     private String username;
@@ -103,7 +104,7 @@ public class users {
     }
 
     public void setBalance(double balance) {
-        this.balance = balance;
+        this.balance = this.balance + balance;
     }
 
     public boolean is_active() {

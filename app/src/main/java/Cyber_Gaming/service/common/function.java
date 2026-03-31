@@ -15,6 +15,17 @@ public class function {
         }
     }
 
+    public static double DoubleInput(Scanner sc) {
+        while (true) {
+            try {
+                String input = sc.nextLine();
+                return Double.parseDouble(input);
+            } catch (Exception e) {
+                System.out.print("Nhap so hop le: ");
+            }
+        }
+    }
+
     public static boolean checkPhone(String phone){
         String regex = "^0\\d{9}";
         return phone.matches(regex);

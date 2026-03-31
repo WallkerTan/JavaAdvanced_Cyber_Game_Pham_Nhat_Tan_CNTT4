@@ -24,7 +24,7 @@ public class pcsService {
         }
 
         for (pcs p : pcsMap.values()) {
-            p.toString();
+            System.out.println(p.toString());
         }
     }
 

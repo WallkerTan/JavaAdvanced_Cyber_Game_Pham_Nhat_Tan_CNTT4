@@ -31,6 +31,48 @@ public class bookingIMPL implements bookingRepository {
         return map;
     }
 
+    public bookings getByUserID(int user_id) {
+        bookings temp = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT * FROM bookings WHERE user_id = ? AND status = ?";
+
+        try {
+            conn = DbUtility.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, user_id);
+            ps.setString(2, BookingStatus.PENDING.toString());
+
+            rs = ps.executeQuery();
+
+            // 🔥 FIX QUAN TRỌNG
+            if (rs.next()) {
+                temp = mapBooking(rs);
+            } else {
+                System.out.println("Khong tim thay booking!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return temp;
+    }
+
     @Override
     public Map<Integer, bookings> getBystatus(BookingStatus status) {
         Map<Integer, bookings> map = new HashMap<>();
@@ -231,7 +273,7 @@ public class bookingIMPL implements bookingRepository {
         b.setPaymentStatus(rs.getString("payment_status"));
         b.setNotes(rs.getString("notes"));
         b.setCreatedAt(rs.getTimestamp("created_at"));
-        b.setUpdatedAt(rs.getTimestamp("updated_at"));
+        b.setUpdatedAt();
 
         return b;
     }

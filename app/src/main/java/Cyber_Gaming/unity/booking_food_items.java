@@ -11,14 +11,11 @@ public class booking_food_items {
 
     public booking_food_items() {}
 
-    public booking_food_items(int itemId, int bookingId, int foodId, int quantity,
-            double priceAtTime, double subtotal) {
-        this.itemId = itemId;
+    public booking_food_items(int bookingId, int foodId, int quantity, double priceAtTime) {
         this.bookingId = bookingId;
         this.foodId = foodId;
         this.quantity = quantity;
         this.priceAtTime = priceAtTime;
-        this.subtotal = subtotal;
     }
 
     public int getItemId() {

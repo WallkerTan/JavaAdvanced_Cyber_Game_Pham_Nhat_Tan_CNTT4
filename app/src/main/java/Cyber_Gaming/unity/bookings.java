@@ -1,6 +1,7 @@
 package Cyber_Gaming.unity;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import Cyber_Gaming.unity.enums.BookingStatus;
@@ -26,24 +27,22 @@ public class bookings {
 
     public bookings() {}
 
-    public bookings(int bookingId, int userId, Integer pcId, Timestamp startTime, Timestamp endTime,
-            double totalHours, double totalPcAmount, double totalFoodAmount, double grandTotal,
-            BookingStatus status, String paymentStatus, String notes, Timestamp createdAt,
-            Timestamp updatedAt) {
-        this.bookingId = bookingId;
+    public bookings(int userId, Integer pcId, Timestamp startTime, Timestamp endTime) {
         this.userId = userId;
         this.pcId = pcId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.totalHours = totalHours;
-        this.totalPcAmount = totalPcAmount;
-        this.totalFoodAmount = totalFoodAmount;
-        this.grandTotal = grandTotal;
-        this.status = status;
-        this.paymentStatus = paymentStatus;
-        this.notes = notes;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.notes = "";
+
+        // Các giá trị mặc định
+        this.totalHours = 0; // Sẽ được database tự tính
+        this.totalPcAmount = 0.0; // Sẽ được database tính hoặc set sau
+        this.totalFoodAmount = 0.0; // Mặc định 0, sẽ cập nhật khi thêm món
+        this.grandTotal = 0.0; // Sẽ được database tính
+        this.status = BookingStatus.PENDING; // Mặc định PENDING
+        this.paymentStatus = "UNPAID"; // Mặc định UNPAID
+        this.createdAt = null; // Database tự set
+        this.updatedAt = null; // Database tự set
     }
 
     public int getBookingId() {
@@ -154,8 +153,8 @@ public class bookings {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedAt() {
+        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public Map<Integer, booking_food_items> getFoodItems() {

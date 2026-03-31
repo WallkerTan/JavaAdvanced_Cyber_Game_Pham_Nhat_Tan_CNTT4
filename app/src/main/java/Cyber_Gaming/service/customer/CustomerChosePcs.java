@@ -1,9 +1,14 @@
 package Cyber_Gaming.service.customer;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Scanner;
+import Cyber_Gaming.service.booking.bookingService;
 import Cyber_Gaming.service.common.function;
 import Cyber_Gaming.service.pcs.pcsService;
+import Cyber_Gaming.unity.bookings;
 import Cyber_Gaming.unity.pcs;
+import Cyber_Gaming.unity.users;
 import Cyber_Gaming.unity.enums.PCStatus;
 
 public class CustomerChosePcs {
@@ -22,7 +27,11 @@ public class CustomerChosePcs {
             // có thể chọn
             temp.setStatus(PCStatus.IN_USE);
             pcs.curentPcs = temp;
+            bookings b = new bookings(users.curentUser.getUserId(), temp.getPcId(),
+                    Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
+            bookingService.add(b);
             System.out.println("ban da chon may id: " + temp.getPcId());
+            users.id_pc = temp.getPcId();
             pcsService.update(temp);
         }
 

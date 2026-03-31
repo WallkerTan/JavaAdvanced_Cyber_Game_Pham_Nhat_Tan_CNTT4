@@ -5,12 +5,16 @@ import Cyber_Gaming.UI.ConsoleUI;
 import Cyber_Gaming.UI.CustomerUI;
 import Cyber_Gaming.dao.implementation.userIMPL;
 import Cyber_Gaming.service.admin.AdminLogin;
+import Cyber_Gaming.service.customer.CustomerBanking;
+import Cyber_Gaming.service.customer.CustomerChangePass;
 import Cyber_Gaming.service.customer.CustomerChoseFood;
 import Cyber_Gaming.service.customer.CustomerChosePcs;
 import Cyber_Gaming.service.customer.CustomerCreate;
 import Cyber_Gaming.service.customer.CustomerLogin;
+import Cyber_Gaming.service.customer.customerDepoisit;
 import Cyber_Gaming.service.pcs.pcsService;
 import Cyber_Gaming.service.staff.StaffLogin;
+import Cyber_Gaming.service.transaction.transactionService;
 import Cyber_Gaming.unity.users;
 import Cyber_Gaming.unity.enums.UserRole;
 import Cyber_Gaming.service.common.CurrentUser;
@@ -58,11 +62,12 @@ public class Main {
             while (true) {
                 int choice = ConsoleUI.menuByrole(role);
                 users temp = users.curentUser;
+                if (choice == 0) {
+                    System.out.println("log out");
+                    function.pause(sc);
+                    break;
+                }
                 switch (choice) {
-                    case 0:
-                        System.out.println("log out..");
-                        function.pause(sc);
-                        break;
                     case 1:
                         if (temp.getRole() == UserRole.CUSTOMER) {
                             pcsService.showAllpcs();
@@ -78,6 +83,37 @@ public class Main {
                     case 3:
                         if (temp.getRole() == UserRole.CUSTOMER) {
                             CustomerChoseFood.choseFood(sc);
+                        }
+                        function.pause(sc);
+                        break;
+                    case 4:
+                        if (temp.getRole() == UserRole.CUSTOMER) {
+                            CustomerBanking.isBanking(sc);
+                        }
+                        function.pause(sc);
+                        break;
+                    case 5:
+                        if (temp.getRole() == UserRole.CUSTOMER) {
+                            System.out.println(users.curentUser.getBalance());
+
+                        }
+                        function.pause(sc);
+                        break;
+                    case 6:
+                        if (temp.getRole() == UserRole.CUSTOMER) {
+                            customerDepoisit.depoisit(sc);
+                        }
+                        function.pause(sc);
+                        break;
+                    case 7:
+                        if (temp.getRole() == UserRole.CUSTOMER) {
+                            transactionService.showAllTransactionByid(users.curentUser.getUserId());
+                        }
+                        function.pause(sc);
+                        break;
+                    case 8:
+                        if (temp.getRole() == UserRole.CUSTOMER) {
+                            CustomerChangePass.changpass(sc);
                         }
                         function.pause(sc);
                         break;

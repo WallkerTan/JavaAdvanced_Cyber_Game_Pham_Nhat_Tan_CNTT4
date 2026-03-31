@@ -3,7 +3,6 @@ package Cyber_Gaming.service.booking;
 import java.util.Map;
 import Cyber_Gaming.dao.implementation.bookingIMPL;
 import Cyber_Gaming.unity.bookings;
-import Cyber_Gaming.unity.pcs;
 
 public class bookingService {
 
@@ -14,7 +13,7 @@ public class bookingService {
         bookingMap = bookingDAO.getAllbooking();
     }
 
-    private static void showAllBooking() {
+    public static void showAllBooking() {
         loading();
 
         if (bookingMap.isEmpty()) {
@@ -27,12 +26,16 @@ public class bookingService {
         }
     }
 
-    private static bookings getByid(int id) {
+    public static bookings getByUsersID(int user_id) {
+        return bookingDAO.getByUserID(user_id);
+    }
+
+    public static bookings getByid(int id) {
         loading();
         return bookingMap.get(id);
     }
 
-    private static boolean add(bookings b) {
+    public static boolean add(bookings b) {
         if (b == null) {
             return false;
         }
@@ -48,5 +51,5 @@ public class bookingService {
     public static boolean deletd(int id) {
         return bookingDAO.deleteBooking(id);
     }
-    
+
 }
