@@ -18,8 +18,8 @@ public class pcsIMPL implements pcsRepository {
         String sql = "SELECT * FROM pcs";
 
         try (Connection conn = DbUtility.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 pcs p = new pcs();
@@ -31,10 +31,12 @@ public class pcsIMPL implements pcsRepository {
                 p.setUpdatedAt(rs.getTimestamp("updated_at"));
 
                 String area = rs.getString("area");
-                if (area != null) p.setArea(AreaType.valueOf(area));
+                if (area != null)
+                    p.setArea(AreaType.valueOf(area));
 
                 String status = rs.getString("status");
-                if (status != null) p.setStatus(PCStatus.valueOf(status));
+                if (status != null)
+                    p.setStatus(PCStatus.valueOf(status));
 
                 map.put(p.getPcId(), p);
             }
@@ -47,7 +49,8 @@ public class pcsIMPL implements pcsRepository {
 
     @Override
     public boolean insertPcs(pcs p) {
-        String sql = "INSERT INTO pcs (pc_number, area, configuration, price_per_hour, status) VALUES (?,?,?,?,?)";
+        String sql =
+                "INSERT INTO pcs (pc_number, area, configuration, price_per_hour, status) VALUES (?,?,?,?,?)";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -68,19 +71,32 @@ public class pcsIMPL implements pcsRepository {
             return rows > 0;
 
         } catch (Exception e) {
-            try { if (conn != null) conn.rollback(); } catch (Exception ex) {}
+            try {
+                if (conn != null)
+                    conn.rollback();
+            } catch (Exception ex) {
+            }
             e.printStackTrace();
             return false;
 
         } finally {
-            try { if (ps != null) ps.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (ps != null)
+                    ps.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
 
     @Override
     public boolean updatePcs(int id, pcs p) {
-        String sql = "UPDATE pcs SET pc_number=?, area=?, configuration=?, price_per_hour=?, status=?, updated_at=CURRENT_TIMESTAMP WHERE pc_id=?";
+        String sql =
+                "UPDATE pcs SET pc_number=?, area=?, configuration=?, price_per_hour=?, status=?, updated_at=CURRENT_TIMESTAMP WHERE pc_id=?";
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -102,13 +118,25 @@ public class pcsIMPL implements pcsRepository {
             return rows > 0;
 
         } catch (Exception e) {
-            try { if (conn != null) conn.rollback(); } catch (Exception ex) {}
+            try {
+                if (conn != null)
+                    conn.rollback();
+            } catch (Exception ex) {
+            }
             e.printStackTrace();
             return false;
 
         } finally {
-            try { if (ps != null) ps.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (ps != null)
+                    ps.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -131,13 +159,70 @@ public class pcsIMPL implements pcsRepository {
             return rows > 0;
 
         } catch (Exception e) {
-            try { if (conn != null) conn.rollback(); } catch (Exception ex) {}
+            try {
+                if (conn != null)
+                    conn.rollback();
+            } catch (Exception ex) {
+            }
             e.printStackTrace();
             return false;
 
         } finally {
-            try { if (ps != null) ps.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (ps != null)
+                    ps.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
+
+    public Map<Integer, pcs> getAllpcsByStatus(PCStatus s) {
+        Map<Integer, pcs> map = new HashMap<>();
+
+        String sql = "SELECT * FROM pcs WHERE status = ?";
+
+        try (Connection conn = DbUtility.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, s.name());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    pcs p = new pcs();
+
+                    p.setPcId(rs.getInt("pc_id"));
+                    p.setPcNumber(rs.getString("pc_number"));
+                    p.setConfiguration(rs.getString("configuration"));
+                    p.setPricePerHour(rs.getDouble("price_per_hour"));
+                    p.setCreatedAt(rs.getTimestamp("created_at"));
+                    p.setUpdatedAt(rs.getTimestamp("updated_at"));
+
+                    // Xử lý AreaType
+                    String areaStr = rs.getString("area");
+                    if (areaStr != null) {
+                        p.setArea(AreaType.valueOf(areaStr));
+                    }
+
+                    // Xử lý PCStatus
+                    String statusStr = rs.getString("status");
+                    if (statusStr != null) {
+                        p.setStatus(PCStatus.valueOf(statusStr));
+                    }
+
+                    map.put(p.getPcId(), p);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
+
 }

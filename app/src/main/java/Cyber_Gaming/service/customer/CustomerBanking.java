@@ -7,11 +7,14 @@ import Cyber_Gaming.dao.implementation.userIMPL;
 import Cyber_Gaming.service.booking.bookingService;
 import Cyber_Gaming.service.common.function;
 import Cyber_Gaming.service.pcs.pcsService;
+import Cyber_Gaming.service.transaction.transactionService;
 import Cyber_Gaming.unity.bookings;
 import Cyber_Gaming.unity.pcs;
+import Cyber_Gaming.unity.transactions;
 import Cyber_Gaming.unity.users;
 import Cyber_Gaming.unity.enums.BookingStatus;
 import Cyber_Gaming.unity.enums.PCStatus;
+import Cyber_Gaming.unity.enums.TransactionType;
 
 public class CustomerBanking {
     public static userIMPL userDAO = new userIMPL();
@@ -58,7 +61,9 @@ public class CustomerBanking {
                     // Trừ tiền
                     cu.setBalance(cu.getBalance() - temp.getGrandTotal());
                     userDAO.updateUser(cu.getUserId(), cu);
-
+                    // cộng tiền
+                    userDAO.getAdmin().setBalance(temp.getGrandTotal());
+                    userDAO.updateUser(userDAO.getAdmin().getUserId(), userDAO.getAdmin());
                     // Cập nhật trạng thái booking
                     temp.setStatus(BookingStatus.COMPLETED);
                     temp.setPaymentStatus("PAID");
@@ -75,7 +80,9 @@ public class CustomerBanking {
                         }
                         users.id_pc = 0; // Reset id_pc
                     }
-
+                    transactions tran = new transactions(users.curentUser.getUserId(),
+                            temp.getBookingId(), TransactionType.PAYMENT, temp.getGrandTotal(), "");
+                    transactionService.add(tran);
                     System.out.println("======================================");
                     System.out.println("THANH TOAN THANH CONG!");
                     System.out.println("So du con lai: " + cu.getBalance() + " VND");

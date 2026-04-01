@@ -28,6 +28,17 @@ public class pcsService {
         }
     }
 
+    public static void showAllpcsByStatus(PCStatus s) {
+        pcsMap = pcsDAO.getAllpcsByStatus(s);
+        if (pcsMap.isEmpty()) {
+            System.out.println("Hien tai khong co may nao!");
+            return;
+        }
+        for (pcs p : pcsMap.values()) {
+            System.out.println(p.toString());
+        }
+    }
+
     public static pcs getPcsById(int id) {
         loadData();
         return pcsMap.get(id);

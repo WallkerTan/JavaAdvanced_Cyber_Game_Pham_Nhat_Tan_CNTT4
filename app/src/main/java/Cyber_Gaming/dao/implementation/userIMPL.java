@@ -33,6 +33,33 @@ public class userIMPL implements userRepository {
         return userMap;
     }
 
+    public Map<Integer, users> getAlluserByRole(UserRole role) {
+        Map<Integer, users> userMap = new HashMap<>();
+
+        if (role == null) {
+            return userMap;
+        }
+
+        String sql = "SELECT * FROM users WHERE is_active = true AND role = ?";
+
+        try (Connection conn = DbUtility.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, role.name());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    users u = mapResultSetToUser(rs);
+                    userMap.put(u.getUserId(), u);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return userMap;
+    }
     // ====================== GET ADMIN ======================
     @Override
     public users getAdmin() {

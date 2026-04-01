@@ -1,6 +1,7 @@
 package Cyber_Gaming.unity;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import Cyber_Gaming.unity.enums.AreaType;
 import Cyber_Gaming.unity.enums.PCStatus;
 
@@ -14,19 +15,19 @@ public class pcs {
     private PCStatus status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private static int int_id = 10;
 
     public pcs() {}
 
-    public pcs(int pcId, String pcNumber, AreaType area, String configuration, double pricePerHour,
-            PCStatus status, Timestamp createdAt, Timestamp updatedAt) {
-        this.pcId = pcId;
-        this.pcNumber = pcNumber;
+    public pcs(AreaType area, String configuration, double pricePerHour) {
+        this.pcNumber = "PC" + (int_id + 1);
+        int_id++;
         this.area = area;
         this.configuration = configuration;
         this.pricePerHour = pricePerHour;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.status = PCStatus.AVAILABLE;
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
+        this.updatedAt = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public int getPcId() {

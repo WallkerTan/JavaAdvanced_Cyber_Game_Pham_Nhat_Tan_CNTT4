@@ -2,11 +2,12 @@ package Cyber_Gaming.dao;
 
 import java.util.Map;
 import Cyber_Gaming.unity.users;
+import Cyber_Gaming.unity.enums.UserRole;
 
 public interface userRepository {
     // lấy toàn bộ người dùng khong phải admin
     public Map<Integer, users> getAlluser();
-
+public Map<Integer, users> getAlluserByRole(UserRole role);
     // lấy admin
     public users getAdmin();
     // tìm theo tên

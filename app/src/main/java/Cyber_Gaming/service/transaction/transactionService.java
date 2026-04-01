@@ -11,7 +11,7 @@ public class transactionService {
     public static void loading() {
         tranMap = tranDAO.getAlltransaction();
     }
-
+    
     public static void showAllTransactionByid(int id) {
         Map<Integer, transactions> M = tranDAO.getTransactionByid(id);
         for (transactions t : M.values()) {

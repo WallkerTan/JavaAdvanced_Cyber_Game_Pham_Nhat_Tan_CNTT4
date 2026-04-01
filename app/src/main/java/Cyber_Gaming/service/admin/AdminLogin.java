@@ -40,6 +40,7 @@ public class AdminLogin {
 
         if (user.getRole() == UserRole.ADMIN && isCorrectPass) {
             System.out.println("Dang nhap Admin thanh cong!");
+            users.curentUser = user;
             return user;
         } else {
             System.out.println("Sai mat khau hoac khong phai Admin!");
