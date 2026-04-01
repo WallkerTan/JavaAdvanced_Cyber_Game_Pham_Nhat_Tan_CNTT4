@@ -3,6 +3,7 @@ package Cyber_Gaming.service.booking;
 import java.util.Map;
 import Cyber_Gaming.dao.implementation.bookingIMPL;
 import Cyber_Gaming.unity.bookings;
+import Cyber_Gaming.unity.enums.BookingStatus;
 
 public class bookingService {
 
@@ -15,6 +16,20 @@ public class bookingService {
 
     public static void showAllBooking() {
         loading();
+
+        if (bookingMap.isEmpty()) {
+            System.out.println("khong co don hang nao");
+            return;
+        }
+
+        for (bookings bookings : bookingMap.values()) {
+            System.out.println(bookings.toString());
+        }
+    }
+
+    public static void showAllBookingByStatus(BookingStatus bs) {
+        bookingMap = bookingDAO.getBystatus(bs);
+
 
         if (bookingMap.isEmpty()) {
             System.out.println("khong co don hang nao");

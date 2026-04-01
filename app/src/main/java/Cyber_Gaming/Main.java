@@ -18,8 +18,10 @@ import Cyber_Gaming.service.customer.customerDepoisit;
 import Cyber_Gaming.service.foods.foodService;
 import Cyber_Gaming.service.pcs.pcsService;
 import Cyber_Gaming.service.staff.StaffLogin;
+import Cyber_Gaming.service.staff.StaffManagerBooking;
 import Cyber_Gaming.service.transaction.transactionService;
 import Cyber_Gaming.unity.users;
+import Cyber_Gaming.unity.enums.PCStatus;
 import Cyber_Gaming.unity.enums.UserRole;
 import Cyber_Gaming.service.common.CurrentUser;
 import Cyber_Gaming.service.common.function;
@@ -30,7 +32,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        
+
         while (true) {
             // Bước 1: Chọn vai trò
             UserRole role = chooseRole(sc);
@@ -78,6 +80,9 @@ public class Main {
                             pcsService.showAllpcs();
                         } else if (temp.getRole() == UserRole.ADMIN) {
                             AdminManagerPcs.add(sc);
+                        } else if (temp.getRole() == UserRole.STAFF) {
+                            System.out.println("ds may dang duoc sd");
+                            pcsService.showAllpcsByStatus(PCStatus.IN_USE);
                         }
                         function.pause(sc);
                         break;
@@ -86,6 +91,8 @@ public class Main {
                             CustomerChosePcs.chosePcs(sc);
                         } else if (temp.getRole() == UserRole.ADMIN) {
                             AdminManagerPcs.update(sc);
+                        } else if (temp.getRole() == UserRole.STAFF) {
+                            StaffManagerBooking.updateBookingStatus(sc);
                         }
                         function.pause(sc);
                         break;
@@ -94,6 +101,8 @@ public class Main {
                             CustomerChoseFood.choseFood(sc);
                         } else if (temp.getRole() == UserRole.ADMIN) {
                             AdminManagerPcs.delete(sc);
+                        } else if (temp.getRole() == UserRole.STAFF) {
+                            foodService.showAllfood();
                         }
                         function.pause(sc);
                         break;
